@@ -2,6 +2,7 @@ package me.darksidecode.bfu.books.ui;
 
 import me.darksidecode.bfu.books.ui.country.CountriesTab;
 import me.darksidecode.bfu.books.ui.genre.GenresTab;
+import me.darksidecode.bfu.books.ui.keeperType.KeeperTypesTab;
 import me.darksidecode.bfu.books.ui.writer.WritersTab;
 
 import javax.swing.*;
@@ -18,6 +19,7 @@ public class MainForm extends JFrame {
         tabs.addTab("Writers", new JScrollPane(new WritersTab()));
         tabs.addTab("Genres", new JScrollPane(new GenresTab()));
         tabs.addTab("Countries", new JScrollPane(new CountriesTab()));
+        tabs.addTab("Keeper Types", new JScrollPane(new KeeperTypesTab()));
 
         getContentPane().setLayout(new GridLayout());
         getContentPane().add(tabs);

@@ -76,7 +76,7 @@ public class GenresRepository {
         var prepStmtParams = new ArrayList<>();
 
         for (int i = 0; i < tokens.length; i++) {
-            var token = tokens[i];
+            var token = "%" + tokens[i] + "%";
             if (i > 0) {
                 whereClause.append(" or ");
             }

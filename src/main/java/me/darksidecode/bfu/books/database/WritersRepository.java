@@ -99,6 +99,7 @@ public class WritersRepository {
 
             if (dateToken == null) {
                 // Search text.
+                token = "%" + token + "%";
                 whereClause
                         .append("first_name like ?")
                         .append(" or second_name like ?")

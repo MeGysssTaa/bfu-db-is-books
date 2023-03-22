@@ -50,7 +50,7 @@ public class AddGenreForm extends JFrame {
                     -1L,
                     Utils.nullIfBlank(tfName.getText())
             );
-            App.INSTANCE.getDatabase().genres().create(genre);
+            App.INSTANCE.getRepo().genres().create(genre);
             successListener.run();
             dispose();
         } catch (Exception e) {

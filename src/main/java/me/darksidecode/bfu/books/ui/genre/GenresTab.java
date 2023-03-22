@@ -61,7 +61,7 @@ public class GenresTab extends JPanel {
         removeAll();
         add(topToolbar, "span 3, wrap");
 
-        var repo = App.INSTANCE.getDatabase().genres();
+        var repo = App.INSTANCE.getRepo().genres();
         var genres = currentFilter == null
                 ? repo.getAll()
                 : repo.search(currentFilter);

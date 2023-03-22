@@ -61,7 +61,7 @@ public class CountriesTab extends JPanel {
         removeAll();
         add(topToolbar, "span 3, wrap");
 
-        var repo = App.INSTANCE.getDatabase().countries();
+        var repo = App.INSTANCE.getRepo().countries();
         var countries = currentFilter == null
                 ? repo.getAll()
                 : repo.search(currentFilter);

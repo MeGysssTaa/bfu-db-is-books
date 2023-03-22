@@ -1,4 +1,4 @@
-package me.darksidecode.bfu.books.ui.writer;
+package me.darksidecode.bfu.books.ui.prize;
 
 import me.darksidecode.bfu.books.App;
 import me.darksidecode.bfu.books.ui.UiOptions;
@@ -9,14 +9,14 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class WritersTab extends JPanel {
+public class PrizesTab extends JPanel {
 
     private JPanel topToolbar;
     private JTextField tfSearch;
 
     private String currentFilter;
 
-    public WritersTab() {
+    public PrizesTab() {
         setLayout(new MigLayout());
         setupTopToolbar();
         refresh();
@@ -28,7 +28,7 @@ public class WritersTab extends JPanel {
 
         var btnAdd = new JButton("Add");
         btnAdd.setFont(UiOptions.genericFont);
-        btnAdd.addActionListener(__ -> new AddWriterForm(this, this::refresh));
+        btnAdd.addActionListener(__ -> new AddPrizeForm(this, this::refresh));
         topToolbar.add(btnAdd);
 
         var btnRefresh = new JButton("Refresh");
@@ -61,13 +61,13 @@ public class WritersTab extends JPanel {
         removeAll();
         add(topToolbar, "span 3, wrap");
 
-        var repo = App.INSTANCE.getRepo().writers();
-        var writers = currentFilter == null
+        var repo = App.INSTANCE.getRepo().prizes();
+        var prizes = currentFilter == null
                 ? repo.getAll()
                 : repo.search(currentFilter);
 
-        for (var writer : writers) {
-            var lblWriterInfo = new JLabel(writer.toString());
+        for (var prize : prizes) {
+            var lblWriterInfo = new JLabel(prize.toString());
             lblWriterInfo.setFont(UiOptions.genericFont);
             add(lblWriterInfo, "w 700!");
 
@@ -75,13 +75,13 @@ public class WritersTab extends JPanel {
             btnEdit.setFont(UiOptions.genericFont);
             add(btnEdit);
             btnEdit.addActionListener(__ ->
-                    new EditWriterForm(this, writer, this::refresh));
+                    new EditPrizeForm(this, prize, this::refresh));
 
             var btnDelete = new JButton("Delete");
             btnDelete.setFont(UiOptions.genericFont);
             add(btnDelete, "wrap");
             btnDelete.addActionListener(__ ->
-                    new DeleteWriterForm(this, writer, this::refresh));
+                    new DeletePrizeForm(this, prize, this::refresh));
         }
 
         repaint();

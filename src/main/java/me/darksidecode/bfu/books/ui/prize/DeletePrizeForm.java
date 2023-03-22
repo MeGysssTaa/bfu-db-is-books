@@ -1,29 +1,29 @@
-package me.darksidecode.bfu.books.ui.writer;
+package me.darksidecode.bfu.books.ui.prize;
 
 import lombok.NonNull;
 import me.darksidecode.bfu.books.App;
-import me.darksidecode.bfu.books.database.entity.Writer;
+import me.darksidecode.bfu.books.database.entity.Prize;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class DeleteWriterForm {
+public class DeletePrizeForm {
 
     private final Component parentFrame;
-    private final Writer writer;
+    private final Prize prize;
     private final Runnable successListener;
 
-    public DeleteWriterForm(Component parentFrame, @NonNull Writer writer, @NonNull Runnable successListener) {
+    public DeletePrizeForm(Component parentFrame, @NonNull Prize prize, @NonNull Runnable successListener) {
         this.parentFrame = parentFrame;
-        this.writer = writer;
+        this.prize = prize;
         this.successListener = successListener;
 
-        var writerName = writer.firstName() + " " + writer.secondName();
+        var prizeName = prize.name();
         var userResponse = JOptionPane.showConfirmDialog(
                 parentFrame,
-                "Do you really want to delete all information associated with writer " + writerName + "? " +
+                "Do you really want to delete all information associated with prize " + prizeName + "? " +
                         "This action cannot be undone!",
-                "Deleting writer " + writerName,
+                "Deleting prize " + prizeName,
                 JOptionPane.YES_NO_OPTION
         );
 
@@ -34,7 +34,7 @@ public class DeleteWriterForm {
 
     private void confirmDelete() {
         try {
-            App.INSTANCE.getRepo().writers().deleteById(writer.id());
+            App.INSTANCE.getRepo().prizes().deleteById(prize.id());
             successListener.run();
         } catch (Exception e) {
             e.printStackTrace();

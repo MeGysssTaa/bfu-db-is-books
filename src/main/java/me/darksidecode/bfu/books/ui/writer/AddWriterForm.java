@@ -82,7 +82,7 @@ public class AddWriterForm extends JFrame {
                     Utils.extractSqlDate(dpBorn),
                     Utils.extractSqlDate(dpDied)
             );
-            App.INSTANCE.getDatabase().writers().create(writer);
+            App.INSTANCE.getRepo().writers().create(writer);
             successListener.run();
             dispose();
         } catch (Exception e) {

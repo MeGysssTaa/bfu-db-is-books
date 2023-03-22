@@ -98,7 +98,7 @@ public class EditWriterForm extends JFrame {
                     Utils.extractSqlDate(dpBorn),
                     Utils.extractSqlDate(dpDied)
             );
-            App.INSTANCE.getDatabase().writers().update(updatedWriter);
+            App.INSTANCE.getRepo().writers().update(updatedWriter);
             successListener.run();
             dispose();
         } catch (Exception e) {

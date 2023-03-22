@@ -60,7 +60,7 @@ public class EditCountryForm extends JFrame {
                     country.id(),
                     Utils.nullIfBlank(tfName.getText())
             );
-            App.INSTANCE.getDatabase().countries().update(updatedCountry);
+            App.INSTANCE.getRepo().countries().update(updatedCountry);
             successListener.run();
             dispose();
         } catch (Exception e) {

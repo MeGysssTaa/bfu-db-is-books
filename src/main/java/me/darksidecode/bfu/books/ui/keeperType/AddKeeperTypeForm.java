@@ -50,7 +50,7 @@ public class AddKeeperTypeForm extends JFrame {
                     -1L,
                     Utils.nullIfBlank(tfName.getText())
             );
-            App.INSTANCE.getDatabase().keeperTypes().create(keeperType);
+            App.INSTANCE.getRepo().keeperTypes().create(keeperType);
             successListener.run();
             dispose();
         } catch (Exception e) {

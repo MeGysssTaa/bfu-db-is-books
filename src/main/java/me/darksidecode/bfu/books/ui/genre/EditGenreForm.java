@@ -60,7 +60,7 @@ public class EditGenreForm extends JFrame {
                     genre.id(),
                     Utils.nullIfBlank(tfName.getText())
             );
-            App.INSTANCE.getDatabase().genres().update(updatedGenre);
+            App.INSTANCE.getRepo().genres().update(updatedGenre);
             successListener.run();
             dispose();
         } catch (Exception e) {

@@ -20,7 +20,7 @@ public class App {
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_PATTERN);
 
     @Getter
-    private final BooksDatabase database = new BooksDatabase();
+    private final BooksDatabase repo = new BooksDatabase();
 
     public static void main(String[] args) {
         FlatMacLightLaf.setup();

@@ -34,7 +34,7 @@ public class DeleteKeeperTypeForm {
 
     private void confirmDelete() {
         try {
-            App.INSTANCE.getDatabase().keeperTypes().deleteById(keeperType.id());
+            App.INSTANCE.getRepo().keeperTypes().deleteById(keeperType.id());
             successListener.run();
         } catch (Exception e) {
             e.printStackTrace();

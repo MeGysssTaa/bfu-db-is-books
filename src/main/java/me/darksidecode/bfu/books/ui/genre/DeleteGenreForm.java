@@ -34,7 +34,7 @@ public class DeleteGenreForm {
 
     private void confirmDelete() {
         try {
-            App.INSTANCE.getDatabase().genres().deleteById(genre.id());
+            App.INSTANCE.getRepo().genres().deleteById(genre.id());
             successListener.run();
         } catch (Exception e) {
             e.printStackTrace();

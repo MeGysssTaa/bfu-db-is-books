@@ -61,7 +61,7 @@ public class KeeperTypesTab extends JPanel {
         removeAll();
         add(topToolbar, "span 3, wrap");
 
-        var repo = App.INSTANCE.getDatabase().keeperTypes();
+        var repo = App.INSTANCE.getRepo().keeperTypes();
         var keeperTypes = currentFilter == null
                 ? repo.getAll()
                 : repo.search(currentFilter);

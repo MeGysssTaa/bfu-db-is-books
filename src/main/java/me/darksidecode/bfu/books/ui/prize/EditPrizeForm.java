@@ -1,33 +1,33 @@
-package me.darksidecode.bfu.books.ui.keeperType;
+package me.darksidecode.bfu.books.ui.prize;
 
 import lombok.NonNull;
 import me.darksidecode.bfu.books.App;
 import me.darksidecode.bfu.books.Utils;
-import me.darksidecode.bfu.books.database.entity.KeeperType;
+import me.darksidecode.bfu.books.database.entity.Prize;
 import me.darksidecode.bfu.books.ui.UiOptions;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class EditKeeperTypeForm extends JFrame {
+public class EditPrizeForm extends JFrame {
 
-    private final KeeperType keeperType;
+    private final Prize prize;
     private final Runnable successListener;
     private final JTextField tfName;
 
-    public EditKeeperTypeForm(Component parentForm, @NonNull KeeperType keeperType, @NonNull Runnable successListener) {
-        this.keeperType = keeperType;
+    public EditPrizeForm(Component parentForm, @NonNull Prize prize, @NonNull Runnable successListener) {
+        this.prize = prize;
         this.successListener = successListener;
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new MigLayout());
-        setTitle("Editing keeper type " + keeperType.name());
+        setTitle("Editing prize " + prize.name());
 
 //        var lblId = new JLabel("ID");
 //        lblId.setFont(UiOptions.genericFont);
 //        getContentPane().add(lblId);
-//        var tfId = new JTextField(String.valueOf(keeperType.id()), 100);
+//        var tfId = new JTextField(String.valueOf(prize.id()), 100);
 //        tfId.setFont(UiOptions.genericFont);
 //        tfId.setEnabled(false);
 //        getContentPane().add(tfId, "wrap");
@@ -35,7 +35,7 @@ public class EditKeeperTypeForm extends JFrame {
         var lblName = new JLabel("Name");
         lblName.setFont(UiOptions.genericFont);
         getContentPane().add(lblName);
-        tfName = new JTextField(keeperType.name(), 100);
+        tfName = new JTextField(prize.name(), 100);
         tfName.setFont(UiOptions.genericFont);
         getContentPane().add(tfName, "wrap");
         
@@ -56,11 +56,11 @@ public class EditKeeperTypeForm extends JFrame {
     
     private void save() {
         try {
-            var updatedKeeperType = new KeeperType(
-                    keeperType.id(),
+            var updatedPrize = new Prize(
+                    prize.id(),
                     Utils.nullIfBlank(tfName.getText())
             );
-            App.INSTANCE.getRepo().keeperTypes().update(updatedKeeperType);
+            App.INSTANCE.getRepo().prizes().update(updatedPrize);
             successListener.run();
             dispose();
         } catch (Exception e) {

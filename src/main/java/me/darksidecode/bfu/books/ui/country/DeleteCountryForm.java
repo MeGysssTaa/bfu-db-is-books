@@ -34,7 +34,7 @@ public class DeleteCountryForm {
 
     private void confirmDelete() {
         try {
-            App.INSTANCE.getDatabase().countries().deleteById(country.id());
+            App.INSTANCE.getRepo().countries().deleteById(country.id());
             successListener.run();
         } catch (Exception e) {
             e.printStackTrace();

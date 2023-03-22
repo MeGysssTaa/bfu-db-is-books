@@ -30,7 +30,7 @@ public class Text {
 
     public Writer getWriter() {
         if (writerObj == null) {
-            writerObj = App.INSTANCE.getDatabase().writers().getById(writer);
+            writerObj = App.INSTANCE.getRepo().writers().getById(writer);
         }
         return writerObj;
     }

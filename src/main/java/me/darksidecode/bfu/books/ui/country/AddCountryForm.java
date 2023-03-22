@@ -50,7 +50,7 @@ public class AddCountryForm extends JFrame {
                     -1L,
                     Utils.nullIfBlank(tfName.getText())
             );
-            App.INSTANCE.getDatabase().countries().create(country);
+            App.INSTANCE.getRepo().countries().create(country);
             successListener.run();
             dispose();
         } catch (Exception e) {

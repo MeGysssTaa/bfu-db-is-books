@@ -26,13 +26,13 @@ public class EditWriterForm extends JFrame {
         getContentPane().setLayout(new MigLayout());
         setTitle("Editing writer " + writer.firstName() + " " + writer.secondName());
 
-        var lblId = new JLabel("ID");
-        lblId.setFont(UiOptions.genericFont);
-        getContentPane().add(lblId);
-        var tfId = new JTextField(String.valueOf(writer.id()), 100);
-        tfId.setFont(UiOptions.genericFont);
-        tfId.setEnabled(false);
-        getContentPane().add(tfId, "wrap");
+//        var lblId = new JLabel("ID");
+//        lblId.setFont(UiOptions.genericFont);
+//        getContentPane().add(lblId);
+//        var tfId = new JTextField(String.valueOf(writer.id()), 100);
+//        tfId.setFont(UiOptions.genericFont);
+//        tfId.setEnabled(false);
+//        getContentPane().add(tfId, "wrap");
 
         var lblFirstName = new JLabel("First Name");
         lblFirstName.setFont(UiOptions.genericFont);
@@ -98,7 +98,7 @@ public class EditWriterForm extends JFrame {
                     Utils.extractSqlDate(dpBorn),
                     Utils.extractSqlDate(dpDied)
             );
-            App.INSTANCE.getDatabase().writers().updateWriter(updatedWriter);
+            App.INSTANCE.getDatabase().writers().update(updatedWriter);
             successListener.run();
             dispose();
         } catch (Exception e) {

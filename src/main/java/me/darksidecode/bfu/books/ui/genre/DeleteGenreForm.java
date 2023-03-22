@@ -1,29 +1,29 @@
-package me.darksidecode.bfu.books.ui.writer;
+package me.darksidecode.bfu.books.ui.genre;
 
 import lombok.NonNull;
 import me.darksidecode.bfu.books.App;
-import me.darksidecode.bfu.books.database.entity.Writer;
+import me.darksidecode.bfu.books.database.entity.Genre;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class DeleteWriterForm {
+public class DeleteGenreForm {
 
     private final Component parentFrame;
-    private final Writer writer;
+    private final Genre genre;
     private final Runnable successListener;
 
-    public DeleteWriterForm(Component parentFrame, @NonNull Writer writer, @NonNull Runnable successListener) {
+    public DeleteGenreForm(Component parentFrame, @NonNull Genre genre, @NonNull Runnable successListener) {
         this.parentFrame = parentFrame;
-        this.writer = writer;
+        this.genre = genre;
         this.successListener = successListener;
 
-        var writerName = writer.firstName() + " " + writer.secondName();
+        var genreName = genre.name();
         var userResponse = JOptionPane.showConfirmDialog(
                 parentFrame,
-                "Do you really want to delete all information associated with writer " + writerName + "? " +
+                "Do you really want to delete all information associated with genre " + genreName + "? " +
                         "This action cannot be undone!",
-                "Deleting writer " + writerName,
+                "Deleting genre " + genreName,
                 JOptionPane.YES_NO_OPTION
         );
 
@@ -34,7 +34,7 @@ public class DeleteWriterForm {
 
     private void confirmDelete() {
         try {
-            App.INSTANCE.getDatabase().writers().deleteById(writer.id());
+            App.INSTANCE.getDatabase().genres().deleteById(genre.id());
             successListener.run();
         } catch (Exception e) {
             e.printStackTrace();

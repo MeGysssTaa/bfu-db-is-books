@@ -20,15 +20,23 @@ public class WritersRepository {
     private final @NonNull BooksDatabase db;
 
     @SneakyThrows
-    public Collection<Writer> getAllWriters() {
+    public Collection<Writer> getAll() {
         @Cleanup var conn = db.getConnection();
         var stmt = conn.createStatement();
         var rs = stmt.executeQuery("select * from writers");
-        return Utils.readEntities(rs, WritersRepository::readWriter);
+        return Utils.readEntities(rs, WritersRepository::readOne);
     }
 
     @SneakyThrows
-    public void createWriter(@NonNull Writer writer) {
+    public Writer getById(long writerId) {
+        @Cleanup var conn = db.getConnection();
+        var stmt = conn.prepareStatement("select * from writers where id = ?");
+        stmt.setLong(1, writerId);
+        return readOne(stmt.executeQuery());
+    }
+
+    @SneakyThrows
+    public void create(@NonNull Writer writer) {
         @Cleanup var conn = db.getConnection();
         var stmt = conn.prepareStatement("" +
                 "insert into writers (first_name, second_name, patronymic, born, died)" +
@@ -44,7 +52,7 @@ public class WritersRepository {
     }
 
     @SneakyThrows
-    public void updateWriter(@NonNull Writer writer) {
+    public void update(@NonNull Writer writer) {
         @Cleanup var conn = db.getConnection();
         var stmt = conn.prepareStatement("" +
                 "update writers set " +
@@ -66,7 +74,7 @@ public class WritersRepository {
     }
 
     @SneakyThrows
-    public void deleteWriterById(long writerId) {
+    public void deleteById(long writerId) {
         @Cleanup var conn = db.getConnection();
         var stmt = conn.prepareStatement("delete from writers where id = ?");
         stmt.setLong(1, writerId);
@@ -74,7 +82,7 @@ public class WritersRepository {
     }
 
     @SneakyThrows
-    public Collection<Writer> searchWriters(@NonNull String query) {
+    public Collection<Writer> search(@NonNull String query) {
         query = query.toLowerCase().trim();
         String[] tokens = query.split(" ");
 
@@ -120,7 +128,7 @@ public class WritersRepository {
             stmt.setObject(i + 1, prepStmtParams.get(i));
         }
 
-        return Utils.readEntities(stmt.executeQuery(), WritersRepository::readWriter);
+        return Utils.readEntities(stmt.executeQuery(), WritersRepository::readOne);
     }
 
     private Date parseSqlDateToken(String token) {
@@ -133,7 +141,7 @@ public class WritersRepository {
     }
 
     @SneakyThrows
-    private static Writer readWriter(ResultSet rs) {
+    private static Writer readOne(ResultSet rs) {
         return new Writer(
                 rs.getLong("id"),
                 rs.getString("first_name"),

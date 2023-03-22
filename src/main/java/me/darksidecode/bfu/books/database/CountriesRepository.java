@@ -5,61 +5,61 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import me.darksidecode.bfu.books.Utils;
-import me.darksidecode.bfu.books.database.entity.Genre;
+import me.darksidecode.bfu.books.database.entity.Country;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
 
 @RequiredArgsConstructor
-public class GenresRepository {
+public class CountriesRepository {
 
     private final @NonNull BooksDatabase db;
 
     @SneakyThrows
-    public Collection<Genre> getAll() {
+    public Collection<Country> getAll() {
         @Cleanup var conn = db.getConnection();
         var stmt = conn.createStatement();
-        var rs = stmt.executeQuery("select * from genres");
-        return Utils.readEntities(rs, GenresRepository::readOne);
+        var rs = stmt.executeQuery("select * from countries");
+        return Utils.readEntities(rs, CountriesRepository::readOne);
     }
 
     @SneakyThrows
-    public void update(@NonNull Genre genre) {
+    public void update(@NonNull Country country) {
         @Cleanup var conn = db.getConnection();
         var stmt = conn.prepareStatement("" +
-                "update genres set " +
+                "update countries set " +
                 "name = ? " +
                 "where id = ?"
         );
 
-        stmt.setString(1, genre.name());
-        stmt.setLong(2, genre.id());
+        stmt.setString(1, country.name());
+        stmt.setLong(2, country.id());
         stmt.execute();
     }
 
     @SneakyThrows
-    public void create(@NonNull Genre genre) {
+    public void create(@NonNull Country country) {
         @Cleanup var conn = db.getConnection();
         var stmt = conn.prepareStatement("" +
-                "insert into genres (name)" +
+                "insert into countries (name)" +
                 "values (?)"
         );
 
-        stmt.setString(1, genre.name());
+        stmt.setString(1, country.name());
         stmt.execute();
     }
 
     @SneakyThrows
-    public void deleteById(long genreId) {
+    public void deleteById(long countryId) {
         @Cleanup var conn = db.getConnection();
-        var stmt = conn.prepareStatement("delete from genres where id = ?");
-        stmt.setLong(1, genreId);
+        var stmt = conn.prepareStatement("delete from countries where id = ?");
+        stmt.setLong(1, countryId);
         stmt.execute();
     }
 
     @SneakyThrows
-    public Collection<Genre> search(@NonNull String query) {
+    public Collection<Country> search(@NonNull String query) {
         query = query.toLowerCase().trim();
         String[] tokens = query.split(" ");
 
@@ -76,18 +76,18 @@ public class GenresRepository {
         }
 
         @Cleanup var conn = db.getConnection();
-        var stmt = conn.prepareStatement("select * from genres where " + whereClause);
+        var stmt = conn.prepareStatement("select * from countries where " + whereClause);
 
         for (int i = 0; i < prepStmtParams.size(); i++) {
             stmt.setObject(i + 1, prepStmtParams.get(i));
         }
 
-        return Utils.readEntities(stmt.executeQuery(), GenresRepository::readOne);
+        return Utils.readEntities(stmt.executeQuery(), CountriesRepository::readOne);
     }
 
     @SneakyThrows
-    private static Genre readOne(ResultSet rs) {
-        return new Genre(
+    private static Country readOne(ResultSet rs) {
+        return new Country(
                 rs.getLong("id"),
                 rs.getString("name")
         );

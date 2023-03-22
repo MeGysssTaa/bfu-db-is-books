@@ -13,6 +13,7 @@ public class BooksDatabase {
     private final WritersRepository writersRepository = new WritersRepository(this);
     private final TextsRepository textsRepository = new TextsRepository(this);
     private final GenresRepository genresRepository = new GenresRepository(this);
+    private final CountriesRepository countriesRepository = new CountriesRepository(this);
 
     public BooksDatabase() {
         System.out.println("db: setting up");
@@ -42,6 +43,10 @@ public class BooksDatabase {
 
     public GenresRepository genres() {
         return genresRepository;
+    }
+
+    public CountriesRepository countries() {
+        return countriesRepository;
     }
 
 }

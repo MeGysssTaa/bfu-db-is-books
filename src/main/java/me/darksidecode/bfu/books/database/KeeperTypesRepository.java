@@ -23,6 +23,15 @@ public class KeeperTypesRepository {
         var rs = stmt.executeQuery("select * from keeper_types");
         return Utils.readEntities(rs, KeeperTypesRepository::readOne);
     }
+    
+    @SneakyThrows
+    public KeeperType getById(long keeperTypeId) {
+        @Cleanup var conn = db.getConnection();
+        var stmt = conn.prepareStatement("select * from keeper_types where id = ?");
+        stmt.setLong(1, keeperTypeId);
+        var rs = stmt.executeQuery();
+        return rs.next() ? readOne(rs) : null;
+    }
 
     @SneakyThrows
     public void update(@NonNull KeeperType keeperType) {

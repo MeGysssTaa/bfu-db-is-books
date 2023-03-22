@@ -23,6 +23,15 @@ public class PrizesRepository {
         var rs = stmt.executeQuery("select * from prizes");
         return Utils.readEntities(rs, PrizesRepository::readOne);
     }
+    
+    @SneakyThrows
+    public Prize getById(long prizeId) {
+        @Cleanup var conn = db.getConnection();
+        var stmt = conn.prepareStatement("select * from prizes where id = ?");
+        stmt.setLong(1, prizeId);
+        var rs = stmt.executeQuery();
+        return rs.next() ? readOne(rs) : null;
+    }
 
     @SneakyThrows
     public void update(@NonNull Prize prize) {

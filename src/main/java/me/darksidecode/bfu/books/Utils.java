@@ -7,9 +7,12 @@ import lombok.experimental.UtilityClass;
 
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 @UtilityClass
 public class Utils {
@@ -31,6 +34,27 @@ public class Utils {
         var entities = new ArrayList<T>();
         while (rs.next()) entities.add(mappingFunc.apply(rs));
         return entities;
+    }
+
+    public static Date parseSqlDateToken(String token) {
+        try {
+            java.util.Date javaDate = App.DATE_FORMAT.parse(token);
+            return new Date(javaDate.toInstant().toEpochMilli());
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    public static <T> Optional<Integer> firstIndexOf(
+            @NonNull T[] arr,
+            @NonNull Predicate<? super T> pred
+    ) {
+        for (int i = 0; i < arr.length; i++) {
+            if (pred.test(arr[i])) {
+                return Optional.of(i);
+            }
+        }
+        return Optional.empty();
     }
 
 }

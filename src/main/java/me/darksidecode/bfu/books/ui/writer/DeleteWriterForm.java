@@ -40,7 +40,7 @@ public class DeleteWriterForm {
             e.printStackTrace();
             JOptionPane.showMessageDialog(
                     parentFrame,
-                    "Failed to delete the given entity. Please refresh and ensure they still exist.\n\n" + e,
+                    "Failed to delete the given entity. Please refresh and ensure it still exists.\n\n" + e,
                     "Error",
                     JOptionPane.ERROR_MESSAGE
             );

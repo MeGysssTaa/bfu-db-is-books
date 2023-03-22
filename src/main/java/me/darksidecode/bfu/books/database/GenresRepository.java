@@ -23,6 +23,15 @@ public class GenresRepository {
         var rs = stmt.executeQuery("select * from genres");
         return Utils.readEntities(rs, GenresRepository::readOne);
     }
+    
+    @SneakyThrows
+    public Genre getById(long genreId) {
+        @Cleanup var conn = db.getConnection();
+        var stmt = conn.prepareStatement("select * from genres where id = ?");
+        stmt.setLong(1, genreId);
+        var rs = stmt.executeQuery();
+        return rs.next() ? readOne(rs) : null;
+    }
 
     @SneakyThrows
     public void update(@NonNull Genre genre) {

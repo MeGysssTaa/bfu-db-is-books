@@ -4,13 +4,10 @@ import lombok.Cleanup;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import me.darksidecode.bfu.books.App;
 import me.darksidecode.bfu.books.Utils;
 import me.darksidecode.bfu.books.database.entity.Writer;
 
-import java.sql.Date;
 import java.sql.ResultSet;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -32,7 +29,8 @@ public class WritersRepository {
         @Cleanup var conn = db.getConnection();
         var stmt = conn.prepareStatement("select * from writers where id = ?");
         stmt.setLong(1, writerId);
-        return readOne(stmt.executeQuery());
+        var rs = stmt.executeQuery();
+        return rs.next() ? readOne(rs) : null;
     }
 
     @SneakyThrows
@@ -91,7 +89,7 @@ public class WritersRepository {
 
         for (int i = 0; i < tokens.length; i++) {
             var token = tokens[i];
-            var dateToken = parseSqlDateToken(token);
+            var dateToken = Utils.parseSqlDateToken(token);
 
             if (i > 0) {
                 whereClause.append(" or ");
@@ -129,15 +127,6 @@ public class WritersRepository {
         }
 
         return Utils.readEntities(stmt.executeQuery(), WritersRepository::readOne);
-    }
-
-    private Date parseSqlDateToken(String token) {
-        try {
-            java.util.Date javaDate = App.DATE_FORMAT.parse(token);
-            return new Date(javaDate.toInstant().toEpochMilli());
-        } catch (ParseException e) {
-            return null;
-        }
     }
 
     @SneakyThrows

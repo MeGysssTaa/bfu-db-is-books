@@ -23,6 +23,15 @@ public class CountriesRepository {
         var rs = stmt.executeQuery("select * from countries");
         return Utils.readEntities(rs, CountriesRepository::readOne);
     }
+    
+    @SneakyThrows
+    public Country getById(long countryId) {
+        @Cleanup var conn = db.getConnection();
+        var stmt = conn.prepareStatement("select * from countries where id = ?");
+        stmt.setLong(1, countryId);
+        var rs = stmt.executeQuery();
+        return rs.next() ? readOne(rs) : null;
+    }
 
     @SneakyThrows
     public void update(@NonNull Country country) {

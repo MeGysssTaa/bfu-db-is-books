@@ -1,29 +1,29 @@
-package me.darksidecode.bfu.books.ui.prize;
+package me.darksidecode.bfu.books.ui.text;
 
 import lombok.NonNull;
 import me.darksidecode.bfu.books.App;
-import me.darksidecode.bfu.books.database.entity.Prize;
+import me.darksidecode.bfu.books.database.entity.Text;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class DeletePrizeForm {
+public class DeleteTextForm {
 
     private final Component parentFrame;
-    private final Prize prize;
+    private final Text text;
     private final Runnable successListener;
 
-    public DeletePrizeForm(Component parentFrame, @NonNull Prize prize, @NonNull Runnable successListener) {
+    public DeleteTextForm(Component parentFrame, @NonNull Text text, @NonNull Runnable successListener) {
         this.parentFrame = parentFrame;
-        this.prize = prize;
+        this.text = text;
         this.successListener = successListener;
 
-        var prizeName = prize.name();
+        var textName = text.getName();
         var userResponse = JOptionPane.showConfirmDialog(
                 parentFrame,
-                "Do you really want to delete all information associated with prize " + prizeName + "? " +
+                "Do you really want to delete all information associated with text " + textName + "? " +
                         "This action cannot be undone!",
-                "Deleting prize " + prizeName,
+                "Deleting text " + textName,
                 JOptionPane.YES_NO_OPTION
         );
 
@@ -34,7 +34,7 @@ public class DeletePrizeForm {
 
     private void confirmDelete() {
         try {
-            App.INSTANCE.getRepo().prizes().deleteById(prize.id());
+            App.INSTANCE.getRepo().texts().deleteById(text.getId());
             successListener.run();
         } catch (Exception e) {
             e.printStackTrace();

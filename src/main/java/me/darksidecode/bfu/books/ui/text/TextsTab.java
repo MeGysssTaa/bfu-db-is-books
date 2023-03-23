@@ -3,6 +3,7 @@ package me.darksidecode.bfu.books.ui.text;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import me.darksidecode.bfu.books.App;
+import me.darksidecode.bfu.books.OrderingDirection;
 import me.darksidecode.bfu.books.database.entity.Text;
 import me.darksidecode.bfu.books.ui.UiOptions;
 import net.miginfocom.swing.MigLayout;
@@ -22,6 +23,7 @@ public class TextsTab extends JPanel {
     private JPanel topToolbar;
     private JTextField tfSearch;
     private JComboBox<Ordering> cbOrdering;
+    private JComboBox<OrderingDirection> cbOrderingDirection;
 
     public TextsTab() {
         setLayout(new MigLayout());
@@ -53,6 +55,16 @@ public class TextsTab extends JPanel {
         });
         topToolbar.add(cbOrdering);
 
+        cbOrderingDirection = new JComboBox<>(OrderingDirection.values());
+        cbOrderingDirection.setFont(UiOptions.genericFont);
+        cbOrderingDirection.setEditable(false);
+        cbOrderingDirection.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                refresh();
+            }
+        });
+        topToolbar.add(cbOrderingDirection);
+
         tfSearch = new JTextField(20);
         tfSearch.setFont(UiOptions.genericFont);
         tfSearch.addKeyListener(new KeyAdapter() {
@@ -75,7 +87,9 @@ public class TextsTab extends JPanel {
         var repo = App.INSTANCE.getRepo().texts();
         var texts = searchQuery.isBlank() ? repo.getAll() : repo.search(searchQuery);
         var ordering = Objects.requireNonNull((Ordering) cbOrdering.getSelectedItem());
+        var ordDir = Objects.requireNonNull((OrderingDirection) cbOrderingDirection.getSelectedItem());
         ordering.sort.accept(texts);
+        ordDir.sort.accept(texts);
 
         for (var text : texts) {
             var lblTextInfo = new JLabel(text.toString());

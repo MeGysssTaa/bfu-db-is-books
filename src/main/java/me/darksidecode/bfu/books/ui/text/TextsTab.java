@@ -14,8 +14,6 @@ public class TextsTab extends JPanel {
     private JPanel topToolbar;
     private JTextField tfSearch;
 
-    private String currentFilter;
-
     public TextsTab() {
         setLayout(new MigLayout());
         setupTopToolbar();
@@ -52,19 +50,11 @@ public class TextsTab extends JPanel {
     private void refresh() {
         var searchQuery = tfSearch.getText();
 
-        if (tfSearch.getText().isBlank()) {
-            currentFilter = null;
-        } else {
-            currentFilter = searchQuery;
-        }
-
         removeAll();
         add(topToolbar, "span 3, wrap");
 
         var repo = App.INSTANCE.getRepo().texts();
-        var texts = currentFilter == null
-                ? repo.getAll()
-                : repo.search(currentFilter);
+        var texts = searchQuery.isBlank() ? repo.getAll() : repo.search(searchQuery);
 
         for (var text : texts) {
             var lblTextInfo = new JLabel(text.toString());

@@ -1,26 +1,24 @@
 package me.darksidecode.bfu.books.database.entity;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import me.darksidecode.bfu.books.App;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Getter
 @RequiredArgsConstructor
-public class Text {
+public class Award {
 
-    private final long id;
-    private final long genre;
-    private final String name;
-    private final Date writingBegun;
-    private final Date writingEnded;
-    private final Date published;
-    private final long keeper;
     private final long writer;
+    private final long prize;
+    private final @NonNull Date date;
+    private final BigDecimal prizeAmountDollars;
 
-    private transient Genre genreObj;
     private transient Writer writerObj;
+    private transient Prize prizeObj;
 
     @Override
     public String toString() {
@@ -35,25 +33,15 @@ public class Text {
             }
             s += " " + w.secondName();
         }
-        s += " - \"" + name + "\"";
-        if (published != null) {
-            s += " (" + App.DATE_FORMAT.format(published) + ")";
-        }
-        s += "    |    ";
-        var g = getGenreObj();
-        if (g == null) {
-            s += "Unknown Genre";
+        s += " - ";
+        var p = getPrizeObj();
+        if (p == null) {
+            s += "Unknown Prize";
         } else {
-            s += g.name();
+            s += p.name();
         }
+        s += String.format(" (%s) - $%s", App.DATE_FORMAT.format(date), prizeAmountDollars);
         return s;
-    }
-    
-    public Genre getGenreObj() {
-        if (genreObj == null) {
-            genreObj = App.INSTANCE.getRepo().genres().getById(genre);
-        }
-        return genreObj;
     }
 
     public Writer getWriterObj() {
@@ -61,6 +49,13 @@ public class Text {
             writerObj = App.INSTANCE.getRepo().writers().getById(writer);
         }
         return writerObj;
+    }
+    
+    public Prize getPrizeObj() {
+        if (prizeObj == null) {
+            prizeObj = App.INSTANCE.getRepo().prizes().getById(prize);
+        }
+        return prizeObj;
     }
 
 }

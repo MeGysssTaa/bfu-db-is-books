@@ -14,8 +14,6 @@ public class GenresTab extends JPanel {
     private JPanel topToolbar;
     private JTextField tfSearch;
 
-    private String currentFilter;
-
     public GenresTab() {
         setLayout(new MigLayout());
         setupTopToolbar();
@@ -52,19 +50,11 @@ public class GenresTab extends JPanel {
     private void refresh() {
         var searchQuery = tfSearch.getText();
 
-        if (tfSearch.getText().isBlank()) {
-            currentFilter = null;
-        } else {
-            currentFilter = searchQuery;
-        }
-
         removeAll();
         add(topToolbar, "span 3, wrap");
 
         var repo = App.INSTANCE.getRepo().genres();
-        var genres = currentFilter == null
-                ? repo.getAll()
-                : repo.search(currentFilter);
+        var genres = searchQuery.isBlank() ? repo.getAll() : repo.search(searchQuery);
 
         for (var genre : genres) {
             var lblWriterInfo = new JLabel(genre.toString());

@@ -1,5 +1,6 @@
 package me.darksidecode.bfu.books.ui;
 
+import me.darksidecode.bfu.books.ui.award.AwardsTab;
 import me.darksidecode.bfu.books.ui.country.CountriesTab;
 import me.darksidecode.bfu.books.ui.genre.GenresTab;
 import me.darksidecode.bfu.books.ui.prize.PrizesTab;
@@ -19,6 +20,7 @@ public class MainForm extends JFrame {
         tabs.setFont(UiOptions.genericFont);
         tabs.addTab("Writers", new JScrollPane(new WritersTab()));
         tabs.addTab("Texts", new JScrollPane(new TextsTab()));
+        tabs.addTab("Awards", new JScrollPane(new AwardsTab()));
         tabs.addTab("Genres", new JScrollPane(new GenresTab()));
         tabs.addTab("Countries", new JScrollPane(new CountriesTab()));
         //tabs.addTab("Keeper Types", new JScrollPane(new KeeperTypesTab()));

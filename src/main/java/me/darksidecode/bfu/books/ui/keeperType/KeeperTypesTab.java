@@ -14,8 +14,6 @@ public class KeeperTypesTab extends JPanel {
     private JPanel topToolbar;
     private JTextField tfSearch;
 
-    private String currentFilter;
-
     public KeeperTypesTab() {
         setLayout(new MigLayout());
         setupTopToolbar();
@@ -52,19 +50,11 @@ public class KeeperTypesTab extends JPanel {
     private void refresh() {
         var searchQuery = tfSearch.getText();
 
-        if (tfSearch.getText().isBlank()) {
-            currentFilter = null;
-        } else {
-            currentFilter = searchQuery;
-        }
-
         removeAll();
         add(topToolbar, "span 3, wrap");
 
         var repo = App.INSTANCE.getRepo().keeperTypes();
-        var keeperTypes = currentFilter == null
-                ? repo.getAll()
-                : repo.search(currentFilter);
+        var keeperTypes = searchQuery.isBlank() ? repo.getAll() : repo.search(searchQuery);
 
         for (var keeperType : keeperTypes) {
             var lblWriterInfo = new JLabel(keeperType.toString());

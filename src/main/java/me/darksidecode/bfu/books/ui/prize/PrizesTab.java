@@ -14,8 +14,6 @@ public class PrizesTab extends JPanel {
     private JPanel topToolbar;
     private JTextField tfSearch;
 
-    private String currentFilter;
-
     public PrizesTab() {
         setLayout(new MigLayout());
         setupTopToolbar();
@@ -52,19 +50,11 @@ public class PrizesTab extends JPanel {
     private void refresh() {
         var searchQuery = tfSearch.getText();
 
-        if (tfSearch.getText().isBlank()) {
-            currentFilter = null;
-        } else {
-            currentFilter = searchQuery;
-        }
-
         removeAll();
         add(topToolbar, "span 3, wrap");
 
         var repo = App.INSTANCE.getRepo().prizes();
-        var prizes = currentFilter == null
-                ? repo.getAll()
-                : repo.search(currentFilter);
+        var prizes = searchQuery.isBlank() ? repo.getAll() : repo.search(searchQuery);
 
         for (var prize : prizes) {
             var lblWriterInfo = new JLabel(prize.toString());

@@ -14,8 +14,6 @@ public class CountriesTab extends JPanel {
     private JPanel topToolbar;
     private JTextField tfSearch;
 
-    private String currentFilter;
-
     public CountriesTab() {
         setLayout(new MigLayout());
         setupTopToolbar();
@@ -52,19 +50,11 @@ public class CountriesTab extends JPanel {
     private void refresh() {
         var searchQuery = tfSearch.getText();
 
-        if (tfSearch.getText().isBlank()) {
-            currentFilter = null;
-        } else {
-            currentFilter = searchQuery;
-        }
-
         removeAll();
         add(topToolbar, "span 3, wrap");
 
         var repo = App.INSTANCE.getRepo().countries();
-        var countries = currentFilter == null
-                ? repo.getAll()
-                : repo.search(currentFilter);
+        var countries = searchQuery.isBlank() ? repo.getAll() : repo.search(searchQuery);
 
         for (var country : countries) {
             var lblWriterInfo = new JLabel(country.toString());

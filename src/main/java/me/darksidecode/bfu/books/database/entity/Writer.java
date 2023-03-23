@@ -23,11 +23,12 @@ public record Writer(
     }
 
     public String fullName() {
-        return String.format("%s %s %s",
-                firstName != null ? firstName : "-",
-                patronymic != null ? patronymic : "-",
-                secondName != null ? secondName : "-"
-        );
+        var fullName = firstName;
+        if (patronymic != null) {
+            fullName += " " + patronymic;
+        }
+        fullName += " " + secondName;
+        return fullName;
     }
 
 }

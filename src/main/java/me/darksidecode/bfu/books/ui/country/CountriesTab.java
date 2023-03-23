@@ -1,6 +1,7 @@
 package me.darksidecode.bfu.books.ui.country;
 
 import me.darksidecode.bfu.books.App;
+import me.darksidecode.bfu.books.database.entity.Country;
 import me.darksidecode.bfu.books.ui.UiOptions;
 import net.miginfocom.swing.MigLayout;
 
@@ -8,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Comparator;
 
 public class CountriesTab extends JPanel {
 
@@ -55,6 +57,7 @@ public class CountriesTab extends JPanel {
 
         var repo = App.INSTANCE.getRepo().countries();
         var countries = searchQuery.isBlank() ? repo.getAll() : repo.search(searchQuery);
+        countries.sort(Comparator.comparing(Country::name));
 
         for (var country : countries) {
             var lblWriterInfo = new JLabel(country.toString());

@@ -9,7 +9,7 @@ import me.darksidecode.bfu.books.database.entity.Country;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class CountriesRepository {
@@ -17,7 +17,7 @@ public class CountriesRepository {
     private final @NonNull BooksDatabase db;
 
     @SneakyThrows
-    public Collection<Country> getAll() {
+    public List<Country> getAll() {
         @Cleanup var conn = db.getConnection();
         var stmt = conn.createStatement();
         var rs = stmt.executeQuery("select * from countries");
@@ -68,7 +68,7 @@ public class CountriesRepository {
     }
 
     @SneakyThrows
-    public Collection<Country> search(@NonNull String query) {
+    public List<Country> search(@NonNull String query) {
         query = query.toLowerCase().trim();
         String[] tokens = query.split(" ");
 

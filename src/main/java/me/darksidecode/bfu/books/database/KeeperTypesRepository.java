@@ -9,7 +9,7 @@ import me.darksidecode.bfu.books.database.entity.KeeperType;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class KeeperTypesRepository {
@@ -17,7 +17,7 @@ public class KeeperTypesRepository {
     private final @NonNull BooksDatabase db;
 
     @SneakyThrows
-    public Collection<KeeperType> getAll() {
+    public List<KeeperType> getAll() {
         @Cleanup var conn = db.getConnection();
         var stmt = conn.createStatement();
         var rs = stmt.executeQuery("select * from keeper_types");
@@ -68,7 +68,7 @@ public class KeeperTypesRepository {
     }
 
     @SneakyThrows
-    public Collection<KeeperType> search(@NonNull String query) {
+    public List<KeeperType> search(@NonNull String query) {
         query = query.toLowerCase().trim();
         String[] tokens = query.split(" ");
 

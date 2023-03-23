@@ -1,18 +1,27 @@
 package me.darksidecode.bfu.books.ui.text;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import me.darksidecode.bfu.books.App;
+import me.darksidecode.bfu.books.database.entity.Text;
 import me.darksidecode.bfu.books.ui.UiOptions;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
 
 public class TextsTab extends JPanel {
 
     private JPanel topToolbar;
     private JTextField tfSearch;
+    private JComboBox<Ordering> cbOrdering;
 
     public TextsTab() {
         setLayout(new MigLayout());
@@ -34,7 +43,17 @@ public class TextsTab extends JPanel {
         btnRefresh.addActionListener(__ -> refresh());
         topToolbar.add(btnRefresh);
 
-        tfSearch = new JTextField(40);
+        cbOrdering = new JComboBox<>(Ordering.values());
+        cbOrdering.setFont(UiOptions.genericFont);
+        cbOrdering.setEditable(false);
+        cbOrdering.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                refresh();
+            }
+        });
+        topToolbar.add(cbOrdering);
+
+        tfSearch = new JTextField(20);
         tfSearch.setFont(UiOptions.genericFont);
         tfSearch.addKeyListener(new KeyAdapter() {
             @Override
@@ -55,6 +74,8 @@ public class TextsTab extends JPanel {
 
         var repo = App.INSTANCE.getRepo().texts();
         var texts = searchQuery.isBlank() ? repo.getAll() : repo.search(searchQuery);
+        var ordering = Objects.requireNonNull((Ordering) cbOrdering.getSelectedItem());
+        ordering.sort.accept(texts);
 
         for (var text : texts) {
             var lblTextInfo = new JLabel(text.toString());
@@ -75,6 +96,25 @@ public class TextsTab extends JPanel {
         }
 
         repaint();
+    }
+
+    @RequiredArgsConstructor
+    private enum Ordering {
+        TextName(entities -> entities.sort(Comparator.comparing(Text::getName))),
+
+        AuthorName(entities -> entities.sort(Comparator.comparing(it ->
+                it.getWriterObj() == null ? "" :
+                        it.getWriterObj().firstName() + " "
+                                + it.getWriterObj().patronymic() + " "
+                                + it.getWriterObj().secondName()))),
+
+        Published(entities -> entities.sort(Comparator.comparing(it ->
+                it.getPublished() == null ? Long.MAX_VALUE : it.getPublished().toLocalDate().toEpochDay()))),
+
+        ;
+
+
+        private final @NonNull Consumer<List<Text>> sort;
     }
 
 }

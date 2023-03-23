@@ -1,6 +1,7 @@
 package me.darksidecode.bfu.books.ui.genre;
 
 import me.darksidecode.bfu.books.App;
+import me.darksidecode.bfu.books.database.entity.Genre;
 import me.darksidecode.bfu.books.ui.UiOptions;
 import net.miginfocom.swing.MigLayout;
 
@@ -8,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Comparator;
 
 public class GenresTab extends JPanel {
 
@@ -55,6 +57,7 @@ public class GenresTab extends JPanel {
 
         var repo = App.INSTANCE.getRepo().genres();
         var genres = searchQuery.isBlank() ? repo.getAll() : repo.search(searchQuery);
+        genres.sort(Comparator.comparing(Genre::name));
 
         for (var genre : genres) {
             var lblWriterInfo = new JLabel(genre.toString());

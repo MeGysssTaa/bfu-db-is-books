@@ -1,6 +1,7 @@
 package me.darksidecode.bfu.books.ui.prize;
 
 import me.darksidecode.bfu.books.App;
+import me.darksidecode.bfu.books.database.entity.Prize;
 import me.darksidecode.bfu.books.ui.UiOptions;
 import net.miginfocom.swing.MigLayout;
 
@@ -8,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Comparator;
 
 public class PrizesTab extends JPanel {
 
@@ -55,6 +57,7 @@ public class PrizesTab extends JPanel {
 
         var repo = App.INSTANCE.getRepo().prizes();
         var prizes = searchQuery.isBlank() ? repo.getAll() : repo.search(searchQuery);
+        prizes.sort(Comparator.comparing(Prize::name));
 
         for (var prize : prizes) {
             var lblWriterInfo = new JLabel(prize.toString());

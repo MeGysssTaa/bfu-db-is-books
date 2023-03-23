@@ -1,6 +1,7 @@
 package me.darksidecode.bfu.books.ui.keeperType;
 
 import me.darksidecode.bfu.books.App;
+import me.darksidecode.bfu.books.database.entity.KeeperType;
 import me.darksidecode.bfu.books.ui.UiOptions;
 import net.miginfocom.swing.MigLayout;
 
@@ -8,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Comparator;
 
 public class KeeperTypesTab extends JPanel {
 
@@ -55,6 +57,7 @@ public class KeeperTypesTab extends JPanel {
 
         var repo = App.INSTANCE.getRepo().keeperTypes();
         var keeperTypes = searchQuery.isBlank() ? repo.getAll() : repo.search(searchQuery);
+        keeperTypes.sort(Comparator.comparing(KeeperType::name));
 
         for (var keeperType : keeperTypes) {
             var lblWriterInfo = new JLabel(keeperType.toString());

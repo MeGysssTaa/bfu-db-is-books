@@ -9,7 +9,7 @@ import me.darksidecode.bfu.books.database.entity.Award;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class AwardsRepository {
@@ -17,7 +17,7 @@ public class AwardsRepository {
     private final @NonNull BooksDatabase db;
 
     @SneakyThrows
-    public Collection<Award> getAll() {
+    public List<Award> getAll() {
         @Cleanup var conn = db.getConnection();
         var stmt = conn.createStatement();
         var rs = stmt.executeQuery("select * from awards");
@@ -81,7 +81,7 @@ public class AwardsRepository {
     }
 
     @SneakyThrows
-    public Collection<Award> search(@NonNull String query) {
+    public List<Award> search(@NonNull String query) {
         query = query.toLowerCase().trim();
         String[] tokens = query.split(" ");
 

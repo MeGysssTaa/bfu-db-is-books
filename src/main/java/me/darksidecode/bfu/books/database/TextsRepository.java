@@ -9,7 +9,7 @@ import me.darksidecode.bfu.books.database.entity.Text;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class TextsRepository {
@@ -17,7 +17,7 @@ public class TextsRepository {
     private final @NonNull BooksDatabase db;
 
     @SneakyThrows
-    public Collection<Text> getAll() {
+    public List<Text> getAll() {
         @Cleanup var conn = db.getConnection();
         var stmt = conn.createStatement();
         var rs = stmt.executeQuery("select * from texts");
@@ -86,7 +86,7 @@ public class TextsRepository {
     }
 
     @SneakyThrows
-    public Collection<Text> search(@NonNull String query) {
+    public List<Text> search(@NonNull String query) {
         query = query.toLowerCase().trim();
         String[] tokens = query.split(" ");
 

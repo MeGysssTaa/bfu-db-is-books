@@ -9,7 +9,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -27,7 +27,7 @@ public class Utils {
     }
 
     @SneakyThrows
-    public static <T> Collection<T> readEntities(
+    public static <T> List<T> readEntities(
             @NonNull ResultSet rs,
             @NonNull Function<? super ResultSet, ? extends T> mappingFunc
     ) {

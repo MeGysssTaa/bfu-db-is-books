@@ -9,7 +9,7 @@ import me.darksidecode.bfu.books.database.entity.Writer;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class WritersRepository {
@@ -17,7 +17,7 @@ public class WritersRepository {
     private final @NonNull BooksDatabase db;
 
     @SneakyThrows
-    public Collection<Writer> getAll() {
+    public List<Writer> getAll() {
         @Cleanup var conn = db.getConnection();
         var stmt = conn.createStatement();
         var rs = stmt.executeQuery("select * from writers");
@@ -80,7 +80,7 @@ public class WritersRepository {
     }
 
     @SneakyThrows
-    public Collection<Writer> search(@NonNull String query) {
+    public List<Writer> search(@NonNull String query) {
         query = query.toLowerCase().trim();
         String[] tokens = query.split(" ");
 

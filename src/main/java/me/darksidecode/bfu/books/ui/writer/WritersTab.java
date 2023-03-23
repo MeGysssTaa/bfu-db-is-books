@@ -1,18 +1,27 @@
 package me.darksidecode.bfu.books.ui.writer;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import me.darksidecode.bfu.books.App;
+import me.darksidecode.bfu.books.database.entity.Writer;
 import me.darksidecode.bfu.books.ui.UiOptions;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
 
 public class WritersTab extends JPanel {
 
     private JPanel topToolbar;
     private JTextField tfSearch;
+    private JComboBox<Ordering> cbOrdering;
 
     public WritersTab() {
         setLayout(new MigLayout());
@@ -34,7 +43,17 @@ public class WritersTab extends JPanel {
         btnRefresh.addActionListener(__ -> refresh());
         topToolbar.add(btnRefresh);
 
-        tfSearch = new JTextField(40);
+        cbOrdering = new JComboBox<>(Ordering.values());
+        cbOrdering.setFont(UiOptions.genericFont);
+        cbOrdering.setEditable(false);
+        cbOrdering.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                refresh();
+            }
+        });
+        topToolbar.add(cbOrdering);
+
+        tfSearch = new JTextField(20);
         tfSearch.setFont(UiOptions.genericFont);
         tfSearch.addKeyListener(new KeyAdapter() {
             @Override
@@ -55,6 +74,8 @@ public class WritersTab extends JPanel {
 
         var repo = App.INSTANCE.getRepo().writers();
         var writers = searchQuery.isBlank() ? repo.getAll() : repo.search(searchQuery);
+        var ordering = Objects.requireNonNull((Ordering) cbOrdering.getSelectedItem());
+        ordering.sort.accept(writers);
 
         for (var writer : writers) {
             var lblWriterInfo = new JLabel(writer.toString());
@@ -75,6 +96,27 @@ public class WritersTab extends JPanel {
         }
 
         repaint();
+    }
+
+    @RequiredArgsConstructor
+    private enum Ordering {
+        Name(entities -> entities.sort(Comparator.comparing(it ->
+                it.firstName() + " " + it.patronymic() + " " + it.secondName()))),
+
+        Born(entities -> entities.sort(Comparator.comparing(it ->
+                it.born() == null ? Long.MAX_VALUE : it.born().toLocalDate().toEpochDay()))),
+
+        Died(entities -> entities.sort(Comparator.comparing(it ->
+                it.died() == null ? Long.MAX_VALUE : it.died().toLocalDate().toEpochDay()))),
+
+        YearsLived(entities -> entities.sort(Comparator.comparing(it ->
+                (it.born() == null || it.died() == null) ? Long.MAX_VALUE :
+                        it.died().toLocalDate().toEpochDay() - it.born().toLocalDate().toEpochDay()))),
+
+        ;
+
+
+        private final @NonNull Consumer<List<Writer>> sort;
     }
 
 }

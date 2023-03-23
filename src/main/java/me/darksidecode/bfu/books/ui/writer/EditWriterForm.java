@@ -83,7 +83,7 @@ public class EditWriterForm extends JFrame {
         btnCancel.addActionListener(__ -> dispose());
         getContentPane().add(btnCancel);
 
-        setSize(500, 320);
+        setSize(500, 280);
         setLocationRelativeTo(parentForm);
         setVisible(true);
     }

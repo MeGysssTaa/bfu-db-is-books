@@ -100,8 +100,7 @@ public class WritersTab extends JPanel {
 
     @RequiredArgsConstructor
     private enum Ordering {
-        Name(entities -> entities.sort(Comparator.comparing(it ->
-                it.firstName() + " " + it.patronymic() + " " + it.secondName()))),
+        Name(entities -> entities.sort(Comparator.comparing(Writer::fullName))),
 
         Born(entities -> entities.sort(Comparator.comparing(it ->
                 it.born() == null ? Long.MAX_VALUE : it.born().toLocalDate().toEpochDay()))),

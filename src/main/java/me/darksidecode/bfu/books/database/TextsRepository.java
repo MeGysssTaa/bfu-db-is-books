@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import me.darksidecode.bfu.books.Utils;
 import me.darksidecode.bfu.books.database.entity.Text;
+import me.darksidecode.bfu.books.database.entity.Writer;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -31,6 +32,16 @@ public class TextsRepository {
         stmt.setLong(1, textId);
         var rs = stmt.executeQuery();
         return rs.next() ? readOne(rs) : null;
+    }
+
+    @SneakyThrows
+    public long countByWriter(@NonNull Writer writer) {
+        @Cleanup var conn = db.getConnection();
+        var stmt = conn.prepareStatement("select count(*) from texts where writer = ?");
+        stmt.setLong(1, writer.id());
+        var rs = stmt.executeQuery();
+        rs.next();
+        return rs.getInt(1);
     }
 
     @SneakyThrows

@@ -103,10 +103,7 @@ public class TextsTab extends JPanel {
         TextName(entities -> entities.sort(Comparator.comparing(Text::getName))),
 
         AuthorName(entities -> entities.sort(Comparator.comparing(it ->
-                it.getWriterObj() == null ? "" :
-                        it.getWriterObj().firstName() + " "
-                                + it.getWriterObj().patronymic() + " "
-                                + it.getWriterObj().secondName()))),
+                it.getWriterObj() == null ? "" : it.getWriterObj().fullName()))),
 
         Published(entities -> entities.sort(Comparator.comparing(it ->
                 it.getPublished() == null ? Long.MAX_VALUE : it.getPublished().toLocalDate().toEpochDay()))),

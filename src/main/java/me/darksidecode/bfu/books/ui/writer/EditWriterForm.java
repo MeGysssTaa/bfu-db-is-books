@@ -24,7 +24,7 @@ public class EditWriterForm extends JFrame {
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new MigLayout());
-        setTitle("Editing writer " + writer.firstName() + " " + writer.secondName());
+        setTitle("Editing writer " + writer.fullName());
 
 //        var lblId = new JLabel("ID");
 //        lblId.setFont(UiOptions.genericFont);

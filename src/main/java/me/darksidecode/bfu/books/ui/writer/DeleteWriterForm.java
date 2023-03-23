@@ -18,7 +18,7 @@ public class DeleteWriterForm {
         this.writer = writer;
         this.successListener = successListener;
 
-        var writerName = writer.firstName() + " " + writer.secondName();
+        var writerName = writer.fullName();
         var userResponse = JOptionPane.showConfirmDialog(
                 parentFrame,
                 "Do you really want to delete all information associated with writer " + writerName + "? " +

@@ -15,12 +15,18 @@ public record Writer(
 
     @Override
     public String toString() {
-        return String.format("%s %s %s (%s -- %s)",
-                firstName != null ? firstName : "-",
-                patronymic != null ? patronymic : "-",
-                secondName != null ? secondName : "-",
+        return String.format("%s (%s -- %s)",
+                fullName(),
                 born != null ? App.DATE_FORMAT.format(born) : "??/??/????",
                 died != null ? App.DATE_FORMAT.format(died) : "??/??/????"
+        );
+    }
+
+    public String fullName() {
+        return String.format("%s %s %s",
+                firstName != null ? firstName : "-",
+                patronymic != null ? patronymic : "-",
+                secondName != null ? secondName : "-"
         );
     }
 

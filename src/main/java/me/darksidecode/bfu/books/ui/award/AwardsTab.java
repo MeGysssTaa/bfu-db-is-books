@@ -100,10 +100,7 @@ public class AwardsTab extends JPanel {
 
     @RequiredArgsConstructor
     private enum Ordering {
-        Writer(entities -> entities.sort(Comparator.comparing(it ->
-                it.getWriterObj().firstName() + " "
-                        + it.getWriterObj().patronymic() + " "
-                        + it.getWriterObj().secondName()))),
+        Writer(entities -> entities.sort(Comparator.comparing(it -> it.getWriterObj().fullName()))),
 
         Prize(entities -> entities.sort(Comparator.comparing(it -> it.getPrizeObj().name()))),
 

@@ -5,6 +5,7 @@ import me.darksidecode.bfu.books.ui.country.CountriesTab;
 import me.darksidecode.bfu.books.ui.genre.GenresTab;
 import me.darksidecode.bfu.books.ui.prize.PrizesTab;
 import me.darksidecode.bfu.books.ui.text.TextsTab;
+import me.darksidecode.bfu.books.ui.writer.WritersStatsTab;
 import me.darksidecode.bfu.books.ui.writer.WritersTab;
 
 import javax.swing.*;
@@ -19,6 +20,7 @@ public class MainForm extends JFrame {
         var tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
         tabs.setFont(UiOptions.genericFont);
         tabs.addTab("Writers", new JScrollPane(new WritersTab()));
+        tabs.addTab("Stats", new JScrollPane(new WritersStatsTab()));
         tabs.addTab("Texts", new JScrollPane(new TextsTab()));
         tabs.addTab("Awards", new JScrollPane(new AwardsTab()));
         tabs.addTab("Genres", new JScrollPane(new GenresTab()));

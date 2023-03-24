@@ -119,6 +119,9 @@ public class TextsTab extends JPanel {
         AuthorName(entities -> entities.sort(Comparator.comparing(it ->
                 it.getWriterObj() == null ? "" : it.getWriterObj().fullName()))),
 
+        Genre(entities -> entities.sort(Comparator.comparing(it ->
+                it.getGenreObj() == null ? "" : it.getGenreObj().name()))),
+
         Published(entities -> entities.sort(Comparator.comparing(it ->
                 it.getPublished() == null ? Long.MAX_VALUE : it.getPublished().toLocalDate().toEpochDay()))),
 

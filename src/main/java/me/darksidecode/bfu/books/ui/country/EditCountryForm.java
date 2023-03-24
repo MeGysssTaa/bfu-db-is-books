@@ -60,6 +60,11 @@ public class EditCountryForm extends JFrame {
             return;
         }
 
+        if (tfName.getText().length() > 50) {
+            Utils.error(this, "Length of \"Name\" must be at most 50 characters.");
+            return;
+        }
+
         try {
             var updatedCountry = new Country(
                     country.id(),

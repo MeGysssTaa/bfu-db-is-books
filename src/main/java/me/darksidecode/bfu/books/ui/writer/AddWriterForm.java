@@ -78,8 +78,23 @@ public class AddWriterForm extends JFrame {
             return;
         }
 
+        if (tfFirstName.getText().length() > 50) {
+            Utils.error(this, "Length of \"First Name\" must be at most 50 characters.");
+            return;
+        }
+
         if (tfSecondName.getText().isBlank()) {
             Utils.error(this, "Field \"Second Name\" must not be empty.");
+            return;
+        }
+
+        if (tfSecondName.getText().length() > 50) {
+            Utils.error(this, "Length of \"Second Name\" must be at most 50 characters.");
+            return;
+        }
+
+        if (tfPatronymic.getText().length() > 50) {
+            Utils.error(this, "Length of \"Patronymic\" must be at most 50 characters.");
             return;
         }
 

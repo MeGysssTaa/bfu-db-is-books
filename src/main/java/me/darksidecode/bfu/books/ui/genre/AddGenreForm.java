@@ -50,6 +50,11 @@ public class AddGenreForm extends JFrame {
             return;
         }
 
+        if (tfName.getText().length() > 50) {
+            Utils.error(this, "Length of \"Name\" must be at most 50 characters.");
+            return;
+        }
+
         try {
             var genre = new Genre(
                     -1L,

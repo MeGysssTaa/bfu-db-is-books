@@ -5,6 +5,8 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
+import javax.swing.*;
+import java.awt.*;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.text.ParseException;
@@ -55,6 +57,10 @@ public class Utils {
             }
         }
         return Optional.empty();
+    }
+
+    public static void error(@NonNull Component parent, @NonNull String msg) {
+        JOptionPane.showMessageDialog(parent, msg, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
 }

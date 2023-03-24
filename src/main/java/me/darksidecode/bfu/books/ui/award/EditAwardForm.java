@@ -84,12 +84,31 @@ public class EditAwardForm extends JFrame {
     }
 
     private void save() {
+        if (dpDate.getDate() == null) {
+            Utils.error(this, "Field \"Date\" must not be empty.");
+            return;
+        }
+
+        if (tfPrizeAmountDollars.getText().isBlank()) {
+            Utils.error(this, "Field \"Amount (USD)\" must not be empty.");
+            return;
+        }
+
+        BigDecimal prizeAmountDollars;
+
+        try {
+            prizeAmountDollars = new BigDecimal(tfPrizeAmountDollars.getText().replace(',', '.'));
+        } catch (NumberFormatException __) {
+            Utils.error(this, "Field \"Amount (USD)\" must have a numeric value (example: 123.45).");
+            return;
+        }
+
         try {
             var updatedAward = new Award(
                     ((Writer) Objects.requireNonNull(cbWriter.getSelectedItem())).id(),
                     ((Prize) Objects.requireNonNull(cbPrize.getSelectedItem())).id(),
                     Objects.requireNonNull(Utils.extractSqlDate(dpDate)),
-                    new BigDecimal(tfPrizeAmountDollars.getText().replace(',', '.'))
+                    prizeAmountDollars
             );
             App.INSTANCE.getRepo().awards().update(award, updatedAward);
             successListener.run();

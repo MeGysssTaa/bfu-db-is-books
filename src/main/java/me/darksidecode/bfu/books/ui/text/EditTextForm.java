@@ -103,6 +103,35 @@ public class EditTextForm extends JFrame {
     }
     
     private void save() {
+        if (tfName.getText().isBlank()) {
+            Utils.error(this, "Field \"Name\" must not be empty.");
+            return;
+        }
+
+        if (dpWritingBegun.getDate() != null
+                && dpWritingEnded.getDate() != null
+                && dpWritingBegun.getDate().isAfter(dpWritingEnded.getDate())) {
+            Utils.error(this, "The date in field \"Writing Begun\" " +
+                    "must be before the date in field \"Writing Ended\".");
+            return;
+        }
+
+        if (dpWritingBegun.getDate() != null
+                && dpPublished.getDate() != null
+                && dpWritingBegun.getDate().isAfter(dpPublished.getDate())) {
+            Utils.error(this, "The date in field \"Writing Begun\" " +
+                    "must be before the date in field \"Published\".");
+            return;
+        }
+
+        if (dpWritingEnded.getDate() != null
+                && dpPublished.getDate() != null
+                && dpWritingEnded.getDate().isAfter(dpPublished.getDate())) {
+            Utils.error(this, "The date in field \"Writing Ended\" " +
+                    "must be before the date in field \"Published\".");
+            return;
+        }
+
         try {
             var updatedText = new Text(
                       text.getId(),

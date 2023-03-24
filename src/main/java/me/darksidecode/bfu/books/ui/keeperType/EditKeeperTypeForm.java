@@ -55,6 +55,11 @@ public class EditKeeperTypeForm extends JFrame {
     }
     
     private void save() {
+        if (tfName.getText().isBlank()) {
+            Utils.error(this, "Field \"Name\" must not be empty.");
+            return;
+        }
+
         try {
             var updatedKeeperType = new KeeperType(
                     keeperType.id(),

@@ -77,24 +77,39 @@ public class AddAwardForm extends JFrame {
     }
 
     private void save() {
+        if (dpDate.getDate() == null) {
+            Utils.error(this, "Field \"Date\" must not be empty.");
+            return;
+        }
+
+        if (tfPrizeAmountDollars.getText().isBlank()) {
+            Utils.error(this, "Field \"Amount (USD)\" must not be empty.");
+            return;
+        }
+
+        BigDecimal prizeAmountDollars;
+
+        try {
+            prizeAmountDollars = new BigDecimal(tfPrizeAmountDollars.getText().replace(',', '.'));
+        } catch (NumberFormatException __) {
+            Utils.error(this, "Field \"Amount (USD)\" must have a numeric value (example: 123.45).");
+            return;
+        }
+
         try {
             var award = new Award(
                     ((Writer) Objects.requireNonNull(cbWriter.getSelectedItem())).id(),
                     ((Prize) Objects.requireNonNull(cbPrize.getSelectedItem())).id(),
                     Objects.requireNonNull(Utils.extractSqlDate(dpDate)),
-                    new BigDecimal(tfPrizeAmountDollars.getText().replace(',', '.'))
+                    prizeAmountDollars
             );
             App.INSTANCE.getRepo().awards().create(award);
             successListener.run();
             dispose();
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Failed to save changes. Make sure all fields are filled with valid values.\n\n" + e,
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            Utils.error(this, "Failed to save changes. " +
+                    "Make sure all fields are filled with valid values.\n\n" + e);
         }
     }
 

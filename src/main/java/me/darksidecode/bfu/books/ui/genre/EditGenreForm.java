@@ -55,6 +55,11 @@ public class EditGenreForm extends JFrame {
     }
     
     private void save() {
+        if (tfName.getText().isBlank()) {
+            Utils.error(this, "Field \"Name\" must not be empty.");
+            return;
+        }
+
         try {
             var updatedGenre = new Genre(
                     genre.id(),

@@ -89,6 +89,24 @@ public class EditWriterForm extends JFrame {
     }
     
     private void save() {
+        if (tfFirstName.getText().isBlank()) {
+            Utils.error(this, "Field \"First Name\" must not be empty.");
+            return;
+        }
+
+        if (tfSecondName.getText().isBlank()) {
+            Utils.error(this, "Field \"Second Name\" must not be empty.");
+            return;
+        }
+
+        if (dpBorn.getDate() != null
+                && dpDied.getDate() != null
+                && dpBorn.getDate().isAfter(dpDied.getDate())) {
+            Utils.error(this, "The date in field \"Born\" " +
+                    "must be before the date in field \"Died\".");
+            return;
+        }
+
         try {
             var updatedWriter = new Writer(
                     writer.id(),
